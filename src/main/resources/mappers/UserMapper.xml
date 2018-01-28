@@ -130,7 +130,7 @@
         role = #{role,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime},
+        create_time = #{createTime, jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null" >
         update_time = now(),
@@ -147,7 +147,7 @@
       question = #{question,jdbcType=VARCHAR},
       answer = #{answer,jdbcType=VARCHAR},
       role = #{role,jdbcType=INTEGER},
-      create_time = now(),
+      create_time = #{createTime, jdbcType=TIMESTAMP},
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -167,5 +167,39 @@
     FROM ggm_user
     WHERE username = #{username}
     AND password = #{password}
+  </select>
+
+  <select id="selectQuestionByUsername" resultType="String" parameterType="String">
+    SELECT question
+    FROM ggm_user
+    WHERE username = #{username}
+  </select>
+
+  <select id="checkAnswer" resultType="int" parameterType="map">
+    SELECT count(1)
+    FROM ggm_user
+    WHERE username = #{username}
+    AND question = #{question}
+    AND answer = #{answer}
+  </select>
+  
+  <update id="updatePasswordByUsername" parameterType="map">
+    UPDATE ggm_user
+    SET password = #{passwordNew}, update_time = now()
+    WHERE username = #{username}
+  </update>
+
+  <select id="checkPassword" resultType="int" parameterType="map">
+    SELECT count(1)
+    FROM ggm_user
+    WHERE id = #{userId}
+    AND password = #{password}
+  </select>
+
+  <select id="checkEmailByUserId" resultType="int" parameterType="map">
+    SELECT count(1)
+    FROM ggm_user
+    WHERE email = #{email}
+    AND id != #{userId}
   </select>
 </mapper>

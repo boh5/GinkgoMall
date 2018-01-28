@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Created by dill on 2018/1/27
+ * 管理员用户模块相关功能
  */
 @Controller
 @RequestMapping("/manage/user/")
@@ -22,6 +23,14 @@ public class UserMangeController {
     @Autowired
     private IUserService iUserService;
 
+    /**
+     * 管理员登录
+     *
+     * @param username
+     * @param password
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session) {

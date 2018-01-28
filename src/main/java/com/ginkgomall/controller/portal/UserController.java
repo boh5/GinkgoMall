@@ -79,6 +79,12 @@ public class UserController {
         return iUserService.checkValid(str, type);
     }
 
+    /**
+     * 登录状态获取用户信息
+     *
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "get_user_info.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<User> getUserInfo(HttpSession session) {
@@ -89,24 +95,54 @@ public class UserController {
         return ServerResponse.createByErrorMessage("用户未登录，无法获得当前用户信息");
     }
 
+    /**
+     * 通过用户名返回密保问题
+     * @param username
+     * @return
+     */
     @RequestMapping(value = "forget_get_question.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> forgetGetQuestion(String username) {
         return iUserService.selectQuestion(username);
     }
 
+    /**
+     * 检查密保答案是否正确，正确则返回一个token
+     *
+     * @param username
+     * @param question
+     * @param answer
+     * @return
+     */
     @RequestMapping(value = "forget_check_answer.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> forgetCheckAnswer(String username, String question, String answer) {
         return iUserService.checkAnswer(username, question, answer);
     }
 
+    /**
+     * 未登录状态
+     * 如果token合法，则修改用户密码
+     *
+     * @param username
+     * @param passwordNew
+     * @param forgetToken
+     * @return
+     */
     @RequestMapping(value = "forget_reset_password.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
         return iUserService.forgetResetPassword(username, passwordNew, forgetToken);
     }
 
+    /**
+     * 登录状态重置密码
+     *
+     * @param session
+     * @param passwordOld
+     * @param passwordNew
+     * @return
+     */
     @RequestMapping(value = "reset_password.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> resetPassword(HttpSession session, String passwordOld, String passwordNew) {
@@ -117,6 +153,13 @@ public class UserController {
         return iUserService.resetPassword(passwordOld, passwordNew, user);
     }
 
+    /**
+     * 更新用户信息
+     *
+     * @param session
+     * @param user
+     * @return
+     */
     @RequestMapping(value = "update_information.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<User> updateInformation(HttpSession session, User user) {
@@ -134,6 +177,12 @@ public class UserController {
         return response;
     }
 
+    /**
+     * 获取用户信息，如果未登录则强制登录
+     *
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "get_information.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<User> getInformation(HttpSession session) {

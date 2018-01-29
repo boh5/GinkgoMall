@@ -3,6 +3,13 @@ package com.ginkgomall.pojo;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * 订单详情pojo
+ *
+ * @author dill
+ * @date 2018/1/26
+ */
+
 public class OrderItem {
     private Integer id;
 

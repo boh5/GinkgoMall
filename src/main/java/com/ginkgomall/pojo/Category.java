@@ -3,6 +3,13 @@ package com.ginkgomall.pojo;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * 品类pojo
+ *
+ * @author dill
+ * @date 2018/1/26
+ */
+
 public class Category {
     private Integer id;
 

@@ -22,12 +22,15 @@ import java.util.Set;
 @Service("iCategoryService")
 public class CategoryServiceImpl implements ICategoryService {
 
-    //引入日志类，用以打印日志
+    /**
+     * 引入日志类，用以打印日志
+     */
     private Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     @Autowired
     private CategoryMapper categoryMapper;
 
+    @Override
     public ServerResponse addCategory(String categoryName, Integer parentId) {
         if (parentId == null || StringUtils.isBlank(categoryName)) {
             return ServerResponse.createByErrorMessage("添加品类参数错误");
@@ -35,7 +38,8 @@ public class CategoryServiceImpl implements ICategoryService {
         Category category = new Category();
         category.setName(categoryName);
         category.setParentId(parentId);
-        category.setStatus(true); //分类可用
+        //设置分类可用
+        category.setStatus(true);
 
         int rowCount = categoryMapper.insert(category);
         if (rowCount > 0) {
@@ -44,6 +48,7 @@ public class CategoryServiceImpl implements ICategoryService {
         return ServerResponse.createByErrorMessage("添加品类失败");
     }
 
+    @Override
     public ServerResponse updateCategoryName(Integer categoryId, String categoryName) {
         if (categoryId == null || StringUtils.isBlank(categoryName)) {
             return ServerResponse.createByErrorMessage("更新品类名称参数错误");
@@ -60,6 +65,7 @@ public class CategoryServiceImpl implements ICategoryService {
 
     }
 
+    @Override
     public ServerResponse getChildrenParallelCategory(Integer categoryId) {
         List<Category> categoryList = categoryMapper.selectCategoryChildrenByParentId(categoryId);
         if (CollectionUtils.isEmpty(categoryList)) {
@@ -68,6 +74,7 @@ public class CategoryServiceImpl implements ICategoryService {
         return ServerResponse.createBySuccess(categoryList);
     }
 
+    @Override
     public ServerResponse selectCategoryAndChildrenById(Integer categoryId) {
         Set<Category> categorySet = Sets.newHashSet();
         findChildCategory(categorySet, categoryId);
@@ -84,11 +91,11 @@ public class CategoryServiceImpl implements ICategoryService {
 
     /**
      * 递归算法，用来查找所有子节点
+     * <notice>不是基本数据类型，Set无法排除重复，需要重写hashCode和equal方法</notice>
      *
-     * @param categorySet
-     * @param categoryId
+     * @param categorySet category set
+     * @param categoryId category id
      */
-    //Category不是基本数据类型，Set无法排除重复，需要重写hashCode和equal方法
     private void findChildCategory(Set<Category> categorySet, Integer categoryId) {
         Category category = categoryMapper.selectByPrimaryKey(categoryId);
         if (category != null) {

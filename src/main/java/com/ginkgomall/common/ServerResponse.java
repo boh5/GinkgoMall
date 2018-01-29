@@ -1,16 +1,21 @@
 package com.ginkgomall.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-//import org.codehaus.jackson.annotate.JsonIgnore;
-//import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 
 /**
- * Created by dill on 2018/1/26
+ * 用来封装服务器响应</br>
+ *
+ * {@code @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL} 此注解用来保证null对象不出现在Json中,已经被{@code @JsonInclude(value = JsonInclude.Include.NON_NULL)
+ * }替换
+ *
+ * @author dill
+ * @date 2018/1/26
  */
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)//此注解用来保证null对象不出现在Json中
+
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class ServerResponse<T> implements Serializable {
 
     private int status;
@@ -35,7 +40,13 @@ public class ServerResponse<T> implements Serializable {
         this.msg = msg;
     }
 
-    @JsonIgnore//不在Json序列化结果中
+    /**
+     * 判断响应的内容是成功还是失败</br>
+     * {@code @JsonIgnore}用于在json响应中排除它
+     *
+     * @return boolean
+     */
+    @JsonIgnore
     public boolean isSuccess() {
         return this.status == ResponseCode.SUCCESS.getCode();
     }

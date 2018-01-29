@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by dill on 2018/1/27
  * 管理员用户模块相关功能
+ *
+ * @author dill
+ * @date 2018/1/27
  */
 @Controller
 @RequestMapping("/manage/user/")
@@ -26,14 +28,14 @@ public class UserMangeController {
     /**
      * 管理员登录
      *
-     * @param username
-     * @param password
-     * @param session
-     * @return
+     * @param username username
+     * @param password password
+     * @param session HttpSession
+     * @return ServerResponse
      */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<User> login(String username, String password, HttpSession session) {
+    public ServerResponse login(String username, String password, HttpSession session) {
         ServerResponse<User> response = iUserService.login(username, password);
         if (response.isSuccess()) {
             User user = response.getData();

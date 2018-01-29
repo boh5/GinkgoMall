@@ -4,21 +4,31 @@ package com.ginkgomall.common;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by dill on 2018/1/27
+ * 缓存Token
+ *
+ * @author dill
+ * @date 2018/1/27
  */
 public class TokenCache {
 
-    //生成日志
+    /**
+     * 日志记录类
+     */
     private static Logger logger = LoggerFactory.getLogger(TokenCache.class);
 
     public static final String TOKEN_PREFIX = "token_";
-    //LRU算法, 加载缓存
+    public static final String NULL_STRING = "null";
+
+    /**
+     * LRU算法, 加载缓存
+     */
     private static LoadingCache<String, String> localCache = CacheBuilder.newBuilder().initialCapacity(1000).maximumSize(10000).expireAfterAccess(12, TimeUnit.HOURS)
             .build(new CacheLoader<String, String>() {
                 //默认的数据加载实现，当调用get取值的时候，如果key没有对应的值，就调用这个方法进行加载。
@@ -33,10 +43,10 @@ public class TokenCache {
     }
 
     public static String getKey(String key) {
-        String value = null;
+        String value;
         try {
             value = localCache.get(key);
-            if ("null".equals(value)) {
+            if (NULL_STRING.equals(value)) {
                 return null;
             }
             return value;

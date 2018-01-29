@@ -5,20 +5,19 @@ import com.ginkgomall.common.ResponseCode;
 import com.ginkgomall.common.ServerResponse;
 import com.ginkgomall.pojo.User;
 import com.ginkgomall.service.IUserService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpSession;
-import java.net.Socket;
 
 /**
- * Created by dill
  * 用户模块相关功能
+ *
+ * @author dill
+ * @date 2018/1/26
  */
 @Controller
 @RequestMapping("/user/")
@@ -29,10 +28,11 @@ public class UserController {
 
     /**
      * 登录接口
+     *
      * @param username 用户名
      * @param password 密码
      * @param session session
-     * @return
+     * @return ServerResponse<User>
      */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
@@ -46,8 +46,9 @@ public class UserController {
 
     /**
      * 登出接口
-     * @param session
-     * @return
+     *
+     * @param session HttpSession
+     * @return ServerResponse<String>
      */
     @RequestMapping(value = "logout.do", method = RequestMethod.POST)
     @ResponseBody
@@ -58,8 +59,9 @@ public class UserController {
 
     /**
      * 注册接口
-     * @param user
-     * @return
+     *
+     * @param user User
+     * @return ServerResponse<String>
      */
     @RequestMapping(value = "register.do", method = RequestMethod.POST)
     @ResponseBody
@@ -68,10 +70,11 @@ public class UserController {
     }
 
     /**
-     * 校验接口
-     * @param str
-     * @param type
-     * @return
+     * 校验参数是否合法,或参数值是否已存在
+     *
+     * @param str 参数值
+     * @param type 参数类型
+     * @return ServerResponse<String>
      */
     @RequestMapping(value = "check_valid.do", method = RequestMethod.POST)
     @ResponseBody
@@ -82,8 +85,8 @@ public class UserController {
     /**
      * 登录状态获取用户信息
      *
-     * @param session
-     * @return
+     * @param session HttpSession
+     * @return ServerResponse<User>
      */
     @RequestMapping(value = "get_user_info.do", method = RequestMethod.POST)
     @ResponseBody
@@ -97,8 +100,8 @@ public class UserController {
 
     /**
      * 通过用户名返回密保问题
-     * @param username
-     * @return
+     * @param username username
+     * @return ServerResponse<String>
      */
     @RequestMapping(value = "forget_get_question.do", method = RequestMethod.POST)
     @ResponseBody
@@ -107,12 +110,12 @@ public class UserController {
     }
 
     /**
-     * 检查密保答案是否正确，正确则返回一个token
+     * 检查密保答案是否正确，正确则返回一个token,用于修改密码
      *
-     * @param username
-     * @param question
-     * @param answer
-     * @return
+     * @param username username
+     * @param question 密保问题
+     * @param answer 问题答案
+     * @return ServerResponse<String>
      */
     @RequestMapping(value = "forget_check_answer.do", method = RequestMethod.POST)
     @ResponseBody
@@ -124,10 +127,10 @@ public class UserController {
      * 未登录状态
      * 如果token合法，则修改用户密码
      *
-     * @param username
-     * @param passwordNew
-     * @param forgetToken
-     * @return
+     * @param username username
+     * @param passwordNew new password
+     * @param forgetToken 通过 forgetCheckAnswer获得的token
+     * @return ServerResponse<String>
      */
     @RequestMapping(value = "forget_reset_password.do", method = RequestMethod.POST)
     @ResponseBody
@@ -138,10 +141,10 @@ public class UserController {
     /**
      * 登录状态重置密码
      *
-     * @param session
-     * @param passwordOld
-     * @param passwordNew
-     * @return
+     * @param session HttpSession
+     * @param passwordOld old password
+     * @param passwordNew new password
+     * @return ServerResponse<String>
      */
     @RequestMapping(value = "reset_password.do", method = RequestMethod.POST)
     @ResponseBody
@@ -156,9 +159,9 @@ public class UserController {
     /**
      * 更新用户信息
      *
-     * @param session
-     * @param user
-     * @return
+     * @param session HttpSession
+     * @param user User
+     * @return ServerResponse<User>
      */
     @RequestMapping(value = "update_information.do", method = RequestMethod.POST)
     @ResponseBody
@@ -180,8 +183,8 @@ public class UserController {
     /**
      * 获取用户信息，如果未登录则强制登录
      *
-     * @param session
-     * @return
+     * @param session HttpSession
+     * @return ServerResponse<User>
      */
     @RequestMapping(value = "get_information.do", method = RequestMethod.POST)
     @ResponseBody

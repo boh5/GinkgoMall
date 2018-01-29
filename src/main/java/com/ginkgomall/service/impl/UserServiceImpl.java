@@ -7,7 +7,6 @@ import com.ginkgomall.dao.UserMapper;
 import com.ginkgomall.pojo.User;
 import com.ginkgomall.service.IUserService;
 import com.ginkgomall.util.MD5Util;
-import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,10 @@ import java.sql.Time;
 import java.util.UUID;
 
 /**
- * Created by dill on 2018/1/26
+ * 用户模块的Service实现类
+ *
+ * @author dill
+ * @date 2018/1/26
  */
 @Service("iUserService")
 public class UserServiceImpl implements IUserService {
@@ -42,7 +44,8 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createBySuccess("登录成功", user);
     }
 
-    public ServerResponse<String> register(User user) {
+    @Override
+    public ServerResponse register(User user) {
         ServerResponse validResponse = this.checkValid(user.getUsername(), Const.USERNAME);
         if (!validResponse.isSuccess()) {
             return validResponse;
@@ -64,6 +67,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createBySuccessMessage("注册成功");
     }
 
+    @Override
     public ServerResponse<String> checkValid(String str, String type) {
         if (StringUtils.isNoneBlank(type)) {
             if (Const.USERNAME.equals(type)) {
@@ -84,6 +88,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createBySuccessMessage("校验成功");
     }
 
+    @Override
     public ServerResponse<String> selectQuestion(String username) {
         ServerResponse validResponse = this.checkValid(username, Const.USERNAME);
         if (validResponse.isSuccess()) {
@@ -96,6 +101,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createByErrorMessage("找回密码问题为空");
     }
 
+    @Override
     public ServerResponse<String> checkAnswer(String username, String question, String answer) {
         int resultCount = userMapper.checkAnswer(username, question, answer);
         if (resultCount > 0) {
@@ -108,6 +114,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createByErrorMessage("问题答案错误");
     }
 
+    @Override
     public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
         if (StringUtils.isBlank(forgetToken)) {
             return ServerResponse.createByErrorMessage("参数错误，token需要传递");
@@ -134,6 +141,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createByErrorMessage("修改密码失败");
     }
 
+    @Override
     public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user) {
         //防止横向越权，要校验用户的旧密码和用户id(username)
         int resultCount = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld), user.getId());
@@ -148,6 +156,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createByErrorMessage("密码更新失败");
     }
 
+    @Override
     public ServerResponse<User> updateInformation(User user) {
         //username不能被更新
         //校验email
@@ -169,6 +178,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createByErrorMessage("更新用户信息失败");
     }
 
+    @Override
     public ServerResponse<User> getInformation(Integer userId) {
         User user = userMapper.selectByPrimaryKey(userId);
         if (user == null) {
@@ -178,6 +188,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createBySuccess(user);
     }
 
+    @Override
     public ServerResponse checkAdminRole(User user) {
         if (user != null && user.getRole() == Const.Role.ROLE_ADMIN) {
             return ServerResponse.createBySuccess();

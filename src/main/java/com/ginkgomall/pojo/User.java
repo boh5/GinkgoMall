@@ -2,6 +2,13 @@ package com.ginkgomall.pojo;
 
 import java.util.Date;
 
+/**
+ * 用户pojo
+ *
+ * @author dill
+ * @date 2018/1/26
+ */
+
 public class User {
     private Integer id;
 

@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by dill on 2018/1/29
+ * 品类管理的API
+ *
+ * @author dill
+ * @date 2018/1/29
  */
 @Controller
 @RequestMapping("/manage/category")
@@ -31,10 +34,10 @@ public class CategoryManageController {
     /**
      * 添加品类
      *
-     * @param session
-     * @param categoryName
-     * @param parentId
-     * @return
+     * @param session HttpSession
+     * @param categoryName category name
+     * @param parentId 父节点id
+     * @return ServerResponse
      */
     @RequestMapping(value = "add_category.do", method = RequestMethod.POST)
     @ResponseBody
@@ -55,10 +58,10 @@ public class CategoryManageController {
     /**
      * 更新品类名称
      *
-     * @param session
-     * @param categoryId
-     * @param categoryName
-     * @return
+     * @param session HttpSession
+     * @param categoryId category id
+     * @param categoryName category name
+     * @return ServerResponse
      */
     @RequestMapping(value = "update_category_name", method = RequestMethod.POST)
     @ResponseBody
@@ -77,9 +80,9 @@ public class CategoryManageController {
     /**
      * 返回子分类
      *
-     * @param session
-     * @param categoryId
-     * @return
+     * @param session HttpSession
+     * @param categoryId category id
+     * @return ServerResponse
      */
     @RequestMapping(value = "get_category.do", method = RequestMethod.POST)
     @ResponseBody
@@ -98,9 +101,9 @@ public class CategoryManageController {
     /**
      * 递归查询节点id和所有子节点id
      *
-     * @param session
-     * @param categoryId
-     * @return
+     * @param session HttpSession
+     * @param categoryId category id
+     * @return ServerResponse
      */
     @RequestMapping(value = "get_deep_category.do", method = RequestMethod.POST)
     @ResponseBody

@@ -1,13 +1,29 @@
 package com.ginkgomall.common;
 
 /**
- * Created by dill on 2018/1/26
+ * 响应状态代码
+ *
+ * @author dill
+ * @date 2018/1/26
+ * @see ServerResponse
  */
 public enum  ResponseCode {
 
+    /**
+     * 成功
+     */
     SUCCESS(0, "SUCCESS"),
+    /**
+     * 错误
+     */
     ERROR(1, "ERROR"),
+    /**
+     * 需要登录
+     */
     NEED_LOGIN(10, "NEED_LOGIN"),
+    /**
+     * 参数错误
+     */
     ILLEGAL_ARGUMENT(2, "ILLEGAL_ARGUMENT");
 
     private final int code;

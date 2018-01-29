@@ -1,7 +1,10 @@
 package com.ginkgomall.common;
 
 /**
- * Created by dill on 2018/1/26
+ * 常用常量
+ *
+ * @author dill
+ * @date 2018/1/26
  */
 public class Const {
 

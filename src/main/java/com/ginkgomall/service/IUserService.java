@@ -23,7 +23,7 @@ public interface IUserService {
      * @param user
      * @return
      */
-    public ServerResponse<String> register(User user);
+    ServerResponse<String> register(User user);
 
     /**
      * 校验参数是否合法
@@ -32,7 +32,7 @@ public interface IUserService {
      * @param type
      * @return
      */
-    public ServerResponse<String> checkValid(String str, String type);
+    ServerResponse<String> checkValid(String str, String type);
 
     /**
      * 根据用户名返回密保问题
@@ -40,7 +40,7 @@ public interface IUserService {
      * @param username
      * @return
      */
-    public ServerResponse<String> selectQuestion(String username);
+    ServerResponse<String> selectQuestion(String username);
 
     /**
      * 检查问题答案是否正确，如果正确则返回一个token
@@ -50,7 +50,7 @@ public interface IUserService {
      * @param answer
      * @return
      */
-    public ServerResponse<String> checkAnswer(String username, String question, String answer);
+    ServerResponse<String> checkAnswer(String username, String question, String answer);
 
     /**
      * 判断token，并修改密码
@@ -60,7 +60,7 @@ public interface IUserService {
      * @param forgetToken
      * @return
      */
-    public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken);
+    ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken);
 
     /**
      * 登录状态更新用户密码
@@ -70,7 +70,7 @@ public interface IUserService {
      * @param user
      * @return
      */
-    public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user);
+    ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user);
 
     /**
      * 登录状态更新用户信息
@@ -78,7 +78,7 @@ public interface IUserService {
      * @param user
      * @return
      */
-    public ServerResponse<User> updateInformation(User user);
+    ServerResponse<User> updateInformation(User user);
 
     /**
      * 获取用户信息
@@ -86,6 +86,14 @@ public interface IUserService {
      * @param userId
      * @return
      */
-    public ServerResponse<User> getInformation(Integer userId);
+    ServerResponse<User> getInformation(Integer userId);
 
-    }
+    /**
+     * 校验是否是管理员
+     *
+     * @param user
+     * @return
+     */
+    ServerResponse checkAdminRole(User user);
+
+}

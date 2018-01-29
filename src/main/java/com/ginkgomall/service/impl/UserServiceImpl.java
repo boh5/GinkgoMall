@@ -30,7 +30,7 @@ public class UserServiceImpl implements IUserService {
         if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("用户名不存在");
         }
-        //todo 密码登录MD5
+        // 密码登录MD5
         String md5Password = MD5Util.MD5EncodeUtf8(password);
 
         User user = userMapper.selectLogin(username, md5Password);
@@ -176,5 +176,13 @@ public class UserServiceImpl implements IUserService {
         }
         user.setPassword(StringUtils.EMPTY);
         return ServerResponse.createBySuccess(user);
+    }
+
+    public ServerResponse checkAdminRole(User user) {
+        if (user != null && user.getRole() == Const.Role.ROLE_ADMIN) {
+            return ServerResponse.createBySuccess();
+        } else {
+            return ServerResponse.createByError();
+        }
     }
 }
